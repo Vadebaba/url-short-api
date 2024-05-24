@@ -14,27 +14,18 @@ const app = express();
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
-{/*app.use(
-    cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-})
-);*/}
 
 
-app.use(cors({
-    origin: 'https://urlshtnr.vercel.app/', // use your actual domain name (or localhost), using * is not recommended
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
-    credentials: true
-}))
-
-
-
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://urlshtnr.vercel.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use("/api/", shortUrl);
-
 
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
+
+
